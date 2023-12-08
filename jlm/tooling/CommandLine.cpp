@@ -274,7 +274,7 @@ const char *
 JlmOptCommandLineOptions::ToCommandLineArgument(OutputFormat outputFormat)
 {
   static std::unordered_map<OutputFormat, const char *> map(
-      { { OutputFormat::Llvm, "llvm" }, { OutputFormat::Xml, "xml" } });
+      { { OutputFormat::Llvm, "llvm" }, { OutputFormat::Xml, "xml" }, { OutputFormat::Dot, "dot" } });
 
   if (map.find(outputFormat) != map.end())
     return map[outputFormat];
@@ -871,11 +871,16 @@ JlmOptCommandLineParser::ParseCommandLineArguments(int argc, char ** argv)
               "Write theta-gamma inversion statistics to file.")),
       cl::desc("Write statistics"));
 
+  auto dotOutputFormat = JlmOptCommandLineOptions::OutputFormat::Dot;
   auto llvmOutputFormat = JlmOptCommandLineOptions::OutputFormat::Llvm;
   auto xmlOutputFormat = JlmOptCommandLineOptions::OutputFormat::Xml;
 
   cl::opt<JlmOptCommandLineOptions::OutputFormat> outputFormat(
       cl::values(
+          ::clEnumValN(
+              dotOutputFormat,
+              JlmOptCommandLineOptions::ToCommandLineArgument(dotOutputFormat),
+              "Output Dot (graphviz)"),
           ::clEnumValN(
               llvmOutputFormat,
               JlmOptCommandLineOptions::ToCommandLineArgument(llvmOutputFormat),

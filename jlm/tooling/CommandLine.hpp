@@ -42,6 +42,7 @@ class JlmOptCommandLineOptions final : public CommandLineOptions
 public:
   enum class OutputFormat
   {
+    Dot,
     Llvm,
     Xml
   };

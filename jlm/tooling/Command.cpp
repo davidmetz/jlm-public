@@ -373,6 +373,18 @@ JlmOptCommand::PrintRvsdgModule(
       fclose(fd);
   };
 
+  auto printAsDot = [](const llvm::RvsdgModule & rvsdgModule,
+                       const util::filepath & outputFile,
+                       util::StatisticsCollector &)
+  {
+    auto fd = outputFile == "" ? stdout : fopen(outputFile.to_str().c_str(), "w");
+
+    jlm::rvsdg::view_dot(rvsdgModule.Rvsdg().root(), fd);
+
+    if (fd != stdout)
+      fclose(fd);
+  };
+
   auto printAsLlvm = [](const llvm::RvsdgModule & rvsdgModule,
                         const util::filepath & outputFile,
                         util::StatisticsCollector & statisticsCollector)
@@ -400,6 +412,7 @@ JlmOptCommand::PrintRvsdgModule(
       std::function<
           void(const llvm::RvsdgModule &, const util::filepath &, util::StatisticsCollector &)>>
       printers({ { tooling::JlmOptCommandLineOptions::OutputFormat::Xml, printAsXml },
+                 { tooling::JlmOptCommandLineOptions::OutputFormat::Dot, printAsDot },
                  { tooling::JlmOptCommandLineOptions::OutputFormat::Llvm, printAsLlvm } });
 
   JLM_ASSERT(printers.find(outputFormat) != printers.end());

@@ -68,6 +68,15 @@ to_xml(const jlm::rvsdg::region * region);
 void
 view_xml(const jlm::rvsdg::region * region, FILE * out);
 
+std::string
+region_to_dot(jlm::rvsdg::region * region);
+
+std::string
+to_dot(jlm::rvsdg::region * region);
+
+void
+view_dot(jlm::rvsdg::region * region, FILE * out);
+
 }
 
 #endif
